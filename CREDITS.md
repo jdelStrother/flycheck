@@ -47,6 +47,8 @@ substantial code to Flycheck:
 - [Marcus Majewski](https://github.com/hekto) (error columns in ESLint)
 - [Mark Hellewell](https://github.com/markhellewell) (Puppet and puppetlint
   syntax checkers)
+- [Matthew Curry](https://github.com/strawhatguy) (standard input for syntax
+  checkers)
 - [Matthias Dahl](https://github.com/BinaryKhaos) (performance improvements in
   temporary file handling)
 - [Miro Bezjak](https://github.com/mbezjak) (Groovy)
