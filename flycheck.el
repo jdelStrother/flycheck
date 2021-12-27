@@ -7471,11 +7471,19 @@ Uses the GNAT compiler from GCC.  See URL
 See URL `https://ansible-lint.readthedocs.io/en/latest/'."
   ;; emacs-ansible provides ansible, not ansible-mode
   :enabled (lambda () (bound-and-true-p ansible))
-  :command ("ansible-lint" "--nocolor" "-p" source)
+  :command ("ansible-lint" "--nocolor" "-p" source-original)
+  :predicate flycheck-buffer-saved-p
   :error-patterns
+  ;; ansible-lint v4 output
   ((error "CRITICAL Couldn't parse task at " (file-name) ":" line " " (message))
    (warning line-start (file-name) ":" line ": [E" (id (+ digit)) "] " (message)
-            line-end))
+            line-end)
+   ;; ansible-lint v5 output
+   (error line-start (file-name) ":" line (optional ":" column) ": "
+          (id (or "syntax-check" "internal-error" "parser-error" "load-failure"))
+          " " (message) line-end)
+   (warning line-start (file-name) ":" line (optional ":" column) ": "
+            (id (+ (any "a-z-"))) " " (message) line-end))
   :error-explainer
   (lambda (err)
     (let* ((id (flycheck-error-id err))
@@ -7488,7 +7496,7 @@ See URL `https://ansible-lint.readthedocs.io/en/latest/'."
                           (string-prefix-p id elt)))))
            (next-id (car (seq-filter
                           (lambda (elt)
-                            (string-match-p "^[0-9]\\{3,4\\}: " elt))
+                            (string-match-p "^[0-9a-z-]+: " elt))
                           (nthcdr start lines))))
            (end (if (not next-id)
                     (length lines)
