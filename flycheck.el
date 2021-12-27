@@ -7504,7 +7504,7 @@ See URL `https://ansible-lint.readthedocs.io/en/latest/'."
                    lines t
                    (lambda (elt _)
                      (string-prefix-p next-id elt))))))
-      (substring (mapconcat 'identity (seq-subseq lines start end) "") 2)))
+      (substring (mapconcat 'identity (seq-subseq lines start end) " ") 2)))
   :modes yaml-mode
   :next-checkers ((t . yaml-jsyaml)
                   (t . yaml-ruby)
