@@ -7465,6 +7465,11 @@ Uses the GNAT compiler from GCC.  See URL
           ": " (message) line-end))
   :modes ada-mode)
 
+(defun flycheck-ansible--ansible-lint-find-default-directory (_checker)
+  "Find a parent directory containing a .ansible-lint file."
+  (when (buffer-file-name)
+    (locate-dominating-file (file-name-directory (buffer-file-name)) ".ansible-lint")))
+
 (flycheck-define-checker ansible-ansiblelint
   "An Ansible linter using the ansible-lint tool.
 
@@ -7472,6 +7477,7 @@ See URL `https://ansible-lint.readthedocs.io/en/latest/'."
   ;; emacs-ansible provides ansible, not ansible-mode
   :enabled (lambda () (bound-and-true-p ansible))
   :command ("ansible-lint" "--nocolor" "-p" source-original)
+  :working-directory flycheck-ansible--ansible-lint-find-default-directory
   :predicate flycheck-buffer-saved-p
   :error-patterns
   ;; ansible-lint v4 output
