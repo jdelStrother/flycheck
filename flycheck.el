@@ -7476,7 +7476,7 @@ Uses the GNAT compiler from GCC.  See URL
 See URL `https://ansible-lint.readthedocs.io/en/latest/'."
   ;; emacs-ansible provides ansible, not ansible-mode
   :enabled (lambda () (bound-and-true-p ansible))
-  :command ("ansible-lint" "--nocolor" "-p" source-original)
+  :command ("ansible-lint" "--nocolor" "-p" "--offline" source-original)
   :working-directory flycheck-ansible--ansible-lint-find-default-directory
   :predicate flycheck-buffer-saved-p
   :error-patterns
